@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>RoadSense Console</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Flask Static CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header class="topbar glass">
+  <div class="brand">
+    <div class="brand-dot"></div>
+    <div>
+      <div class="brand-title">RoadSense</div>
+      <div class="brand-sub">Realtime Road Intelligence</div>
+    </div>
+  </div>
+
+  <div class="status">
+    <span class="status-dot" id="statusDot"></span>
+    <span id="statusText">Connecting...</span>
+  </div>
+</header>
+
+<main class="container">
+<section class="grid">
+
+<!-- ROAD SCORE -->
+<div class="card wide glass hero">
+  <div class="card-header">
+    <div>
+      <div class="label">Road Score</div>
+      <div class="sub">Dynamic surface quality index</div>
+    </div>
+    <div class="pill" id="severityPill">SEV --</div>
+  </div>
+
+  <div class="score-area">
+    <div class="score-glow" id="scoreGlow"></div>
+    <div class="score" id="roadScore">--</div>
+  </div>
+
+  <div class="hero-row">
+    <div class="hero-chip">
+      <div class="chip-label">Reaction</div>
+      <div class="chip-val"><span id="reactionMs">--</span> ms</div>
+    </div>
+
+    <div class="hero-chip">
+      <div class="chip-label">Peak Shock</div>
+      <div class="chip-val"><span id="peakShock">--</span></div>
+    </div>
+
+    <div class="hero-chip">
+      <div class="chip-label">Trip Potholes</div>
+      <div class="chip-val"><span id="potholes">0</span></div>
+    </div>
+
+    <div class="hero-chip">
+      <div class="chip-label">Max Severity</div>
+      <div class="chip-val"><span id="maxSev">0</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SPEED -->
+<div class="card glass">
+  <div class="label">Speed</div>
+  <div class="metric-row">
+    <div class="metric" id="speed">--</div>
+    <div class="unit">PWM</div>
+  </div>
+  <canvas class="spark" id="sparkSpeed" width="320" height="54"></canvas>
+  <div class="mini">Motor command</div>
+</div>
+
+<!-- DISTANCE -->
+<div class="card glass">
+  <div class="label">Distance</div>
+  <div class="metric-row">
+    <div class="metric" id="distance">--</div>
+    <div class="unit">cm</div>
+  </div>
+  <canvas class="spark" id="sparkDistance" width="320" height="54"></canvas>
+  <div class="mini">Filtered ultrasonic</div>
+</div>
+
+<!-- ACCELERATION -->
+<div class="card glass">
+  <div class="label">Acceleration</div>
+  <div class="metric-row">
+    <div class="metric" id="acceleration">--</div>
+    <div class="unit">PWM/s</div>
+  </div>
+  <div class="mini">Computed from speed delta</div>
+</div>
+
+<!-- SHOCK -->
+<div class="card glass" id="shockCard">
+  <div class="label">Shock Intensity</div>
+  <div class="metric-row">
+    <div class="metric" id="shock">--</div>
+    <div class="unit">idx</div>
+  </div>
+  <canvas class="spark" id="sparkShock" width="320" height="54"></canvas>
+  <div class="mini">Abs accel × (severity + 1)</div>
+</div>
+
+<!-- SEVERITY -->
+<div class="card glass">
+  <div class="label">Severity</div>
+  <div class="metric" id="severity">--</div>
+  <div class="mini">0 smooth, 3 severe, -1 calibrating</div>
+</div>
+
+<!-- ROAD DEMO -->
+<div class="card wide glass">
+  <div class="card-header">
+    <div>
+      <div class="label">Road Demonstration</div>
+      <div class="sub">Front detects, rear reacts</div>
+    </div>
+    <div class="pill pill-muted">LIVE TRIP</div>
+  </div>
+
+  <div class="road" id="road">
+    <div class="road-sheen"></div>
+    <div class="lane lane1"></div>
+    <div class="lane lane2"></div>
+
+    <div class="car car-front" id="carFront">
+      <div class="car-body"></div>
+      <div class="car-glow"></div>
+    </div>
+
+    <div class="car car-rear" id="carRear">
+      <div class="car-body"></div>
+      <div class="car-glow"></div>
+    </div>
+
+    <div class="roadOverlay" id="roadOverlay"></div>
+  </div>
+
+  <div class="footerline">
+    <div class="tiny">Realtime source: Firebase</div>
+    <div class="tiny" id="lastTs">Last: --</div>
+  </div>
+</div>
+
+</section>
+</main>
+
+<!-- Flask Static JS -->
+<script type="module" src="{{ url_for('static', filename='app.js') }}"></script>
+
+</body>
+</html>
