@@ -1,4 +1,6 @@
+# --------------------
 # Python
+# --------------------
 __pycache__/
 *.pyc
 *.pyo
@@ -7,19 +9,50 @@ __pycache__/
 # Virtual environment
 venv/
 .env/
-
-# Secrets
-pothole_project/firebase_key.json
 *.env
+
+# --------------------
+# Secrets and credentials
+# --------------------
+pothole_project/firebase_key.json
 *.pem
 *.key
+config.h
+secrets.h
+credentials.h
 
+# --------------------
+# PlatformIO
+# --------------------
+.pio/
+.build/
+libdeps/
+
+# --------------------
+# Compiled binaries
+# --------------------
+*.bin
+*.elf
+*.map
+
+# --------------------
 # Logs
+# --------------------
 *.log
 
+# --------------------
 # VS Code
+# --------------------
 .vscode/
 
+# --------------------
 # OS files
+# --------------------
 .DS_Store
 Thumbs.db
+
+# --------------------
+# Temporary files
+# --------------------
+*.tmp
+*.bak
